@@ -19,8 +19,38 @@ val sizeFactor : Float = 4f
 val foreColor : Int = Color.parseColor("#1565C0")
 val backColor : Int = Color.parseColor("#BDBDBD")
 val delay : Long = 20
+val rFactor : Float = 3f
 
 fun Int.inverse() : Float = 1f / this
 fun Float.maxScale(i : Int, n : Int) : Float = Math.max(0f, this - i * n.inverse())
 fun Float.divideScale(i : Int, n : Int) : Float = Math.min(n.inverse(), maxScale(i, n)) * n
 fun Float.sinify() : Float = Math.sin(this * Math.PI).toFloat()
+
+fun Canvas.drawBouncyTrack(size : Float, scale : Float, h : Float, paint : Paint) {
+    val sf : Float = scale.sinify()
+    val sc : Float = scale.divideScale(1, 2)
+    val r : Float = h / rFactor
+    val y : Float = h / 2 - size * sf
+    val ly : Float = (h / 2 - size) * (1 - sc)
+    var ballY : Float = y
+    if (sc > 0f) {
+        ballY = ly
+    }
+    drawLine(0f, 0f, 0f, y, paint)
+    drawCircle(0f, ballY, r, paint)
+    drawLine(0f, 0f, 0f, ly, paint)
+}
+
+fun Canvas.drawBTBNode(i : Int, scale : Float, paint : Paint) {
+    val w : Float = width.toFloat()
+    val h : Float = height.toFloat()
+    val gap : Float = w / (nodes + 1)
+    val size : Float = gap / sizeFactor
+    paint.color = foreColor
+    paint.strokeCap = Paint.Cap.ROUND
+    paint.strokeWidth = Math.min(w, h) / strokeFactor
+    save()
+    translate(gap * (i + 1), 0f)
+    drawBouncyTrack(size, scale, h, paint)
+    restore()
+}
