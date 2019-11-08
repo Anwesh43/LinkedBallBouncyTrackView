@@ -210,4 +210,13 @@ class BallTrackBouncyView(ctx : Context) : View(ctx) {
             }
         }
     }
+
+    companion object {
+
+        fun create(activity : Activity) : BallTrackBouncyView {
+            val view : BallTrackBouncyView = BallTrackBouncyView(activity)
+            activity.setContentView(view)
+            return view
+        }
+    }
 }
