@@ -13,9 +13,9 @@ import android.content.Context
 import android.app.Activity
 
 val nodes : Int = 5
-val scGap : Float = 0.01f
+val scGap : Float = 0.02f
 val strokeFactor : Int = 90
-val sizeFactor : Float = 4f
+val sizeFactor : Float = 1.2f
 val foreColor : Int = Color.parseColor("#1565C0")
 val backColor : Int = Color.parseColor("#BDBDBD")
 val delay : Long = 20
@@ -29,14 +29,14 @@ fun Float.sinify() : Float = Math.sin(this * Math.PI).toFloat()
 fun Canvas.drawBouncyTrack(size : Float, scale : Float, h : Float, paint : Paint) {
     val sf : Float = scale.sinify()
     val sc : Float = scale.divideScale(1, 2)
-    val r : Float = h / rFactor
+    val r : Float = size / rFactor
     val y : Float = h / 2 - size * sf
     val ly : Float = (h / 2 - size) * (1 - sc)
     var ballY : Float = y
     if (sc > 0f) {
         ballY = ly
     }
-    drawLine(0f, 0f, 0f, y, paint)
+    drawLine(0f, h / 2, 0f, y, paint)
     drawCircle(0f, ballY, r, paint)
     drawLine(0f, 0f, 0f, ly, paint)
 }
